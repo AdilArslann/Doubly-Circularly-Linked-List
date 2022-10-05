@@ -4,23 +4,41 @@ using namespace std;
 struct node
 {
 	int data;
-	struct node* next;
-	struct node* previous;
+	node* next;
+	node* previous;
 };
 
 void insertBeginning(node** start)
 {
-	int value;
-	struct node* last = (*start)->previous;
+	cout << "\nEnter the value:";
+	//creates a new node named temp
+	node* temp = new node;
+	cin >> temp->data;
+	if (*start == NULL)
+	{
+		/*If the list is empty it creates a node pointing
+		to itself and makes it the start*/
+		temp->next = temp;
+		temp->previous = temp;
+		*start = temp;
+	}
+	else
+	{
+		//new node will point to the old start (it becomes the new start)
+		temp->next = *start;
 
-	struct node* temp = new node;
-	temp->data = value;
+		//previous of the old start (end) will now be previous of new start.
+		temp->previous = (*start)->previous;
+		
+		//end will now point to the new node(start)
+		((*start)->previous)->next = temp;
 
-	temp->next = *start;
-	temp->data = value;
+		//old start's previous will now point to the new start
+		(*start)->previous = temp;
 
-	last->next = (*start)->previous = temp;
-	*start = temp;
+		//makes the new node start of the list
+		*start = temp;
+	}
 }
 
 void insertMiddle(node** start)
@@ -30,33 +48,36 @@ void insertMiddle(node** start)
 
 void insertEnd(node** start)
 {
+	cout << "\nEnter the value:";
+
+	node* temp = new node;
+	cin >> temp->data;
+
 	if(*start == NULL)
 	{
-		int value;
-		struct node* temp = new node;
-		temp->data = value;
-		temp->next = temp->previous = temp;
+		/*If the list is empty it creates a node pointing
+		to itself and makes it the start*/
+		temp->next = temp;
+		temp->previous = temp;
 		*start = temp;
-		return;
 	}
-	int value;
-	node* last = (*start)->previous;
+	else
+	{
+		node* end = *start;
+		end = end->previous;
 
-	struct node* temp = new node;
-	temp->data = value;
-
-	temp->next = *start;
-
-	(*start)->previous = temp;
-
-	temp->previous = last;
-	last->next = temp;
+		temp->next = end->next;
+		temp->previous = end;
+		(end->next)->previous = temp;
+		end->next = temp;
+	}
 }
 
 void deleteNodeBeginning(node** start)
 {
 	if(*start == NULL)
 	{
+		cout << "\nNothing to delete\n";
 		return;
 	}
 	else if((*start)->next == *start)
@@ -136,42 +157,40 @@ void search(node* start)
 	}
 }
 
-bool isEmpty(node* start)
+void isEmpty(node* start)
 {
 	if(start == NULL)
 	{
-		return 1;
+		cout << "\nYes, the list is empty\n";
 	}
 	else
 	{
-		return 0;
+		cout << "\nNo, the list isn't empty\n";
 	}
 }
 
 void display(node* start)
 {
-	node* temp = start;
-
-	if(temp == start)
+	node* current = start;
+	if (current == NULL)
 	{
-		cout << "\n List is empty";
-		return;
+		cout << "\nThe List is empty";
 	}
-	else
+	else 
 	{
-		do
+		do 
 		{
-			cout << temp->data << " ";
-			temp = temp->next;
-		} while (temp != start);
+			cout << current->data << " ";
+			current = current->next;
+		} while (current != start);
 	}
-	cout << temp->data << " ";
 }
 
 void reverse(node** start)
 {
 	if(*start == NULL)
 	{
+		cout << "\nNothing to reverse\n";
 		return;
 	}
 
@@ -194,17 +213,33 @@ void reverse(node** start)
 	*start = temp;
 }
 
-void clear(node* start)
+void clear(node** start)
 {
-	if(start == NULL)
+	if(*start == NULL)
 	{
 		cout << "The list is empty";
 		return;
 	}
-
-	while (start != NULL)
+	else
 	{
-		deleteNodeEnd(&start);
+		/*creates two nodes and the 'current' node 
+		points to the 2nd node*/
+		node* temp, * current;
+		current = (*start)->next;
+
+		/*While the current node isn't equal to the start
+		deletes the current node and moves on the next one
+		by giving the information to the temp*/
+		while(current != *start)
+		{
+			temp = current->next;
+			free(current);
+			current = temp;
+		}
+
+		//Deletes the start and gives it value: NULL
+		free(start);
+		start = NULL;
 	}
 }
 
@@ -216,77 +251,69 @@ void Menu()
 	cout << "1. Insert from front\n";
 	cout << "2. Insert from middle\n";
 	cout << "3. Insert from the end\n";
-	cout << "4. Insert Before Element\n";
-	cout << "5. Delete From Front\n";
-	cout << "6. Delete From End\n";
-	cout << "7. Delete A Node\n";
-	cout << "8. Search for a element\n";
-	cout << "9. Reverse a the list\n";
+	cout << "4. Delete from front\n";
+	cout << "5. Delete from middle\n";
+	cout << "6. Delete from end\n";
+	cout << "7. Search a element\n";
+	cout << "8. Check if the list is empty\n";
+	cout << "9. Print the list\n";
+	cout << "10. Reverse the whole list\n";
+	cout << "11. Clear the list\n";
 	cout << "=============================================="
 		"======================";
 }
 
 int main()
 {
-	int cho;
+	int choice;
 	char repeat_menu = 'y';
 
+	// Declaration of head node
 	node* start = NULL;
 	Menu();
-	do
-	{
-		cout << "\nEnter the number of the operation you wanna do:";
-		cin >> cho;
-		switch (cho)
-		{
-		case 1:
-		{
+	do {
+		cout << "\nEnter Your Choice:";
+		cin >> choice;
+		switch (choice) {
+		case 1: {
 			insertBeginning(&start);
 			display(start);
 			break;
 		}
-		case 2:
-		{
+		case 2: {
 			insertMiddle(&start);
 			display(start);
 			break;
 		}
-		case 3:
-		{
+		case 3: {
 			insertEnd(&start);
 			display(start);
 			break;
 		}
-		case 4:
-		{
+		case 4: {
 			deleteNodeBeginning(&start);
 			display(start);
 			break;
 		}
-		case 5:
-		{
+		case 5: {
 			deleteNodeMiddle(&start);
 			display(start);
 			break;
 		}
-		case 6:
-		{
+		case 6: {
 			deleteNodeEnd(&start);
 			display(start);
 			break;
 		}
-		case 7:
-		{
+		case 7: {
 			search(start);
 			break;
 		}
-		case 8:
-		{
+		case 8: {
 			isEmpty(start);
 			break;
 		}
-		case 9:
-		{
+		case 9: {
 			display(start);
 			break;
 		}
@@ -298,14 +325,20 @@ int main()
 		}
 		case 11:
 		{
-			clear(start);
+			clear(&start);
 			display(start);
 			break;
 		}
-		default:
+		default: 
 		{
+			cout << "\nWrong Choice!!!";
+			Menu();
 			break;
 		}
 		}
+		cout << "\nEnter More(Y/N)";
+		cin >> repeat_menu;
+
 	} while (repeat_menu == 'y' || repeat_menu == 'Y');
+	return 0;
 }
