@@ -265,8 +265,8 @@ void clear(node** start)
 		}
 
 		//Deletes the start and gives it value: NULL
-		free(start);
-		start = NULL;
+		free(*start);
+		*start = NULL;
 	}
 }
 
