@@ -11,7 +11,7 @@ struct node
 void insertBeginning(node** start)
 {
 	cout << "\nEnter the value:";
-	//creates a new node named temp
+	/*creates a new node named tempand gives it the value that the user gave*/
 	node* temp = new node;
 	cin >> temp->data;
 	if (*start == NULL)
@@ -63,12 +63,20 @@ void insertEnd(node** start)
 	}
 	else
 	{
+		/*creates a nodeand gives it the previous of start
+		which the end of the list since it's a 
+		doubly circular linkedlist 
+		(Basically makes it the end node of the list)*/
 		node* end = *start;
 		end = end->previous;
 
+		//temp's next now points at the start
 		temp->next = end->next;
+		//temp's previous now poinrs to the old end
 		temp->previous = end;
+		//start now points to the new end
 		(end->next)->previous = temp;
+		//old end now points to the new end
 		end->next = temp;
 	}
 }
@@ -82,16 +90,25 @@ void deleteNodeBeginning(node** start)
 	}
 	else if((*start)->next == *start)
 	{
+		/*if there is only one node (start) then it deletes it
+		and gives the start NULL value since there is nothing 
+		in the list*/
 		delete* start;
 		*start = NULL;
 	}
 	else 
 	{
+		//creates a new node with the name temp
 		node* temp = new node;
+		//temp is the copy of the 2nd node
 		temp = (*start)->next;
+		//temp's previous is the end
 		temp->previous = (*start)->previous;
+		//end's next is now temp (2nd node/new start)
 		((*start)->previous)->next = temp;
+		//deletes the old start
 		delete* start;
+		//start has the values and information of 2nd node so it's the new start
 		*start = temp;
 	}
 }
@@ -104,10 +121,14 @@ void deleteNodeEnd(node** start)
 {
 	if(*start == NULL)
 	{
+		cout << "\nNothing to delete\n";
 		return;
 	}
 	else if((*start)->next == *start)
 	{
+		/*if there is only one node (start) then it deletes it
+		and gives the start NULL value since there is nothing
+		in the list*/
 		delete* start;
 		*start = NULL;
 	}
@@ -116,13 +137,13 @@ void deleteNodeEnd(node** start)
 		node* temp = new node;
 		temp = *start;
 		
-		while(temp->next != (*start))
-		{
-			temp = temp->next;
-		}
-
+		//temp is now the end of the list
+		temp = temp->previous;
+		//node before the last node's next is now the start
 		(temp->previous)->next = temp->next;
+		//start's previous is now the node before the last node
 		(temp->next)->previous = temp->previous;
+		//deletes temp node
 		delete temp;
 	}
 }
@@ -259,6 +280,7 @@ void Menu()
 	cout << "9. Print the list\n";
 	cout << "10. Reverse the whole list\n";
 	cout << "11. Clear the list\n";
+	cout << "Note: Please use ONLY integers\n";
 	cout << "=============================================="
 		"======================";
 }
@@ -331,12 +353,12 @@ int main()
 		}
 		default: 
 		{
-			cout << "\nWrong Choice!!!";
+			cout << "\nThere is no such operation\n";
 			Menu();
 			break;
 		}
 		}
-		cout << "\nEnter More(Y/N)";
+		cout << "\nContinue?(Y/N)";
 		cin >> repeat_menu;
 
 	} while (repeat_menu == 'y' || repeat_menu == 'Y');
