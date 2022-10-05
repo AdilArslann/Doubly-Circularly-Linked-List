@@ -152,14 +152,16 @@ void search(node* start)
 {
 	if(start == NULL)
 	{
+		cout << "\nThe List is empty\n";
+		return;
 	}
-	int el;
+	int el, pos = 0, count = 0;
 	cout << "Enter the element you want to search (Only Integer): ";
 	cin >> el;
 
 	node* temp = start;
-	
-	int pos=0, count=0;
+	/*While temp node isn't equal to the start it compares the data with the
+	value the user typed (it ignores the while statement first time it's doing that's why it works)*/
 	do
 	{
 		if(temp->data == el)
@@ -217,20 +219,24 @@ void reverse(node** start)
 
 	node* temp = *start;
 	
+	/*until it reaches the end node it keeps repeating 
+	this operation*/
 	while(temp->next != *start)
 	{
+		//creates a second node and makes it 2nd node
 		node* tem = temp->next;
-
+		//makes next of temp point to previous of temp
 		temp->next = temp->previous;
-
+		//Previous of temp now points to it's next
 		temp->previous = tem;
-
+		//moves to the next node
 		temp = tem;
 	}
-	
+	/*For updating the old last node*/
 	node* tem = temp->next;
 	temp->next = temp->previous;
 	temp->previous = tem;
+	//makes the old last the new head
 	*start = temp;
 }
 
