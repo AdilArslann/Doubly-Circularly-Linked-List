@@ -29,7 +29,7 @@ void insertBeginning(node** start)
 
 		//previous of the old start (end) will now be previous of new start.
 		temp->previous = (*start)->previous;
-		
+
 		//end will now point to the new node(start)
 		((*start)->previous)->next = temp;
 
@@ -41,11 +41,6 @@ void insertBeginning(node** start)
 	}
 }
 
-void insertMiddle(node** start)
-{
-
-}
-
 void insertEnd(node** start)
 {
 	cout << "\nEnter the value:";
@@ -53,7 +48,7 @@ void insertEnd(node** start)
 	node* temp = new node;
 	cin >> temp->data;
 
-	if(*start == NULL)
+	if (*start == NULL)
 	{
 		/*If the list is empty it creates a node pointing
 		to itself and makes it the start*/
@@ -64,8 +59,8 @@ void insertEnd(node** start)
 	else
 	{
 		/*creates a nodeand gives it the previous of start
-		which the end of the list since it's a 
-		doubly circular linkedlist 
+		which the end of the list since it's a
+		doubly circular linkedlist
 		(Basically makes it the end node of the list)*/
 		node* end = *start;
 		end = end->previous;
@@ -81,22 +76,75 @@ void insertEnd(node** start)
 	}
 }
 
+void insertMiddle(node** start)
+{
+	node* tem = *start;
+	int ind = 0;
+	do
+	{
+		tem = tem->next;
+		ind++;
+	} while (tem != *start);
+	if (ind <= 1)
+	{
+		cout << "\nNot enough nodes";
+		return;
+	}
+	else
+	{
+		node* temp = new node;
+		int in;
+		cout << "\n There are " << ind << "Nodes please enter a number that is smaller but also bigger than 1";
+		cin >> in;
+		cout << "\nEnter the value:";
+		cin >> temp->data;
+
+		if (ind - in < ind / 2)
+		{
+			tem = *start;
+			tem = tem->previous;
+
+			for (ind; ind < in; ind--)
+			{
+				tem = tem->previous;
+			}
+			temp->next = tem->next;
+			(tem->next)->previous = temp;
+			tem->next = temp;
+			temp->previous = tem;
+		}
+		else
+		{
+			tem = *start;
+
+			for (ind = 0; ind < in; ind++)
+			{
+				tem = tem->next;
+			}
+			temp->next = tem->next;
+			(tem->next)->previous = temp;
+			tem->next = temp;
+			temp->previous = tem;
+		}
+	}
+}
+
 void deleteNodeBeginning(node** start)
 {
-	if(*start == NULL)
+	if (*start == NULL)
 	{
 		cout << "\nNothing to delete\n";
 		return;
 	}
-	else if((*start)->next == *start)
+	else if ((*start)->next == *start)
 	{
 		/*if there is only one node (start) then it deletes it
-		and gives the start NULL value since there is nothing 
+		and gives the start NULL value since there is nothing
 		in the list*/
 		delete* start;
 		*start = NULL;
 	}
-	else 
+	else
 	{
 		//creates a new node with the name temp
 		node* temp = new node;
@@ -119,12 +167,12 @@ void deleteNodeMiddle(node** start)
 
 void deleteNodeEnd(node** start)
 {
-	if(*start == NULL)
+	if (*start == NULL)
 	{
 		cout << "\nNothing to delete\n";
 		return;
 	}
-	else if((*start)->next == *start)
+	else if ((*start)->next == *start)
 	{
 		/*if there is only one node (start) then it deletes it
 		and gives the start NULL value since there is nothing
@@ -136,7 +184,7 @@ void deleteNodeEnd(node** start)
 	{
 		node* temp = new node;
 		temp = *start;
-		
+
 		//temp is now the end of the list
 		temp = temp->previous;
 		//node before the last node's next is now the start
@@ -150,7 +198,7 @@ void deleteNodeEnd(node** start)
 
 void search(node* start)
 {
-	if(start == NULL)
+	if (start == NULL)
 	{
 		cout << "\nThe List is empty\n";
 		return;
@@ -164,7 +212,7 @@ void search(node* start)
 	value the user typed (it ignores the while statement first time it's doing that's why it works)*/
 	do
 	{
-		if(temp->data == el)
+		if (temp->data == el)
 		{
 			cout << "\nElement found at postion:" << pos + 1;
 			count++;
@@ -174,7 +222,7 @@ void search(node* start)
 
 	} while (temp != start);
 
-	if(count == 0)
+	if (count == 0)
 	{
 		cout << "\nThere is no such element in the list";
 	}
@@ -182,7 +230,7 @@ void search(node* start)
 
 void isEmpty(node* start)
 {
-	if(start == NULL)
+	if (start == NULL)
 	{
 		cout << "\nYes, the list is empty\n";
 	}
@@ -199,9 +247,9 @@ void display(node* start)
 	{
 		cout << "\nThe List is empty";
 	}
-	else 
+	else
 	{
-		do 
+		do
 		{
 			cout << current->data << " ";
 			current = current->next;
@@ -211,17 +259,17 @@ void display(node* start)
 
 void reverse(node** start)
 {
-	if(*start == NULL)
+	if (*start == NULL)
 	{
 		cout << "\nNothing to reverse\n";
 		return;
 	}
 
 	node* temp = *start;
-	
-	/*until it reaches the end node it keeps repeating 
+
+	/*until it reaches the end node it keeps repeating
 	this operation*/
-	while(temp->next != *start)
+	while (temp->next != *start)
 	{
 		//creates a second node and makes it 2nd node
 		node* tem = temp->next;
@@ -242,14 +290,14 @@ void reverse(node** start)
 
 void clear(node** start)
 {
-	if(*start == NULL)
+	if (*start == NULL)
 	{
 		cout << "The list is empty";
 		return;
 	}
 	else
 	{
-		/*creates two nodes and the 'current' node 
+		/*creates two nodes and the 'current' node
 		points to the 2nd node*/
 		node* temp, * current;
 		current = (*start)->next;
@@ -257,7 +305,7 @@ void clear(node** start)
 		/*While the current node isn't equal to the start
 		deletes the current node and moves on the next one
 		by giving the information to the temp*/
-		while(current != *start)
+		while (current != *start)
 		{
 			temp = current->next;
 			free(current);
@@ -357,7 +405,7 @@ int main()
 			display(start);
 			break;
 		}
-		default: 
+		default:
 		{
 			cout << "\nThere is no such operation\n";
 			Menu();
