@@ -41,6 +41,64 @@ void insertBeginning(node** start)
 	}
 }
 
+void insertMiddle(node** start)
+{
+	/*I did this operation/function on thursday when i learned 
+	that we have to do it this way soooo i am not sure how it turned 
+	out but it's working and i don't have time to write comments 
+	since i am short on time*/
+	node* tem = *start;
+	int ind = 0;
+	do
+	{
+		tem = tem->next;
+		ind++;
+	} while (tem != *start);
+	if (ind <= 1)
+	{
+		cout << "\nNot enough nodes";
+		return;
+	}
+	else
+	{
+		node* temp = new node;
+		int in;
+		cout << "\nThe nodes start from index '0'";
+		cout << "\nThere are " << ind << " Nodes please enter a number that is smaller " << ind << " but also bigger than 0";
+		cin >> in;
+		cout << "\nEnter the value:";
+		cin >> temp->data;
+
+		if (ind - in < ind / 2)
+		{
+			tem = *start;
+			tem = tem->previous;
+
+			for (; ind > in; ind--)
+			{
+				tem = tem->previous;
+			}
+			temp->next = tem->next;
+			temp->previous = (tem->next)->previous;
+			(tem->next)->previous = temp;
+			tem->next = temp;
+		}
+		else
+		{
+			tem = *start;
+
+			for (ind = 1; ind < in; ind++)
+			{
+				tem = tem->next;
+			}
+			temp->next = tem->next;
+			(tem->next)->previous = temp;
+			tem->next = temp;
+			temp->previous = tem;
+		}
+	}
+}
+
 void insertEnd(node** start)
 {
 	cout << "\nEnter the value:";
@@ -73,59 +131,6 @@ void insertEnd(node** start)
 		(end->next)->previous = temp;
 		//old end now points to the new end
 		end->next = temp;
-	}
-}
-
-void insertMiddle(node** start)
-{
-	node* tem = *start;
-	int ind = 0;
-	do
-	{
-		tem = tem->next;
-		ind++;
-	} while (tem != *start);
-	if (ind <= 1)
-	{
-		cout << "\nNot enough nodes";
-		return;
-	}
-	else
-	{
-		node* temp = new node;
-		int in;
-		cout << "\n There are " << ind << "Nodes please enter a number that is smaller but also bigger than 1";
-		cin >> in;
-		cout << "\nEnter the value:";
-		cin >> temp->data;
-
-		if (ind - in < ind / 2)
-		{
-			tem = *start;
-			tem = tem->previous;
-
-			for (ind; ind < in; ind--)
-			{
-				tem = tem->previous;
-			}
-			temp->next = tem->next;
-			(tem->next)->previous = temp;
-			tem->next = temp;
-			temp->previous = tem;
-		}
-		else
-		{
-			tem = *start;
-
-			for (ind = 0; ind < in; ind++)
-			{
-				tem = tem->next;
-			}
-			temp->next = tem->next;
-			(tem->next)->previous = temp;
-			tem->next = temp;
-			temp->previous = tem;
-		}
 	}
 }
 
@@ -163,6 +168,7 @@ void deleteNodeBeginning(node** start)
 
 void deleteNodeMiddle(node** start)
 {
+
 }
 
 void deleteNodeEnd(node** start)
