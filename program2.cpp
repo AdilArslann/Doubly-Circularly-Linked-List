@@ -43,9 +43,9 @@ void insertBeginning(node** start)
 
 void insertMiddle(node** start)
 {
-	/*I did this operation/function on thursday when i learned 
-	that we have to do it this way soooo i am not sure how it turned 
-	out but it's working and i don't have time to write comments 
+	/*I did this operation/function on thursday when i learned
+	that we have to do it this way soooo i am not sure how it turned
+	out but it's working and i don't have time to write comments
 	since i am short on time*/
 	node* tem = *start;
 	int ind = 0;
@@ -179,15 +179,15 @@ void deleteNodeMiddle(node** start)
 	} while (tem != *start);
 	if (ind <= 2)
 	{
-		cout << "\nNot enough nodes";
+		cout << "\nNot enough nodes\n";
 		return;
 	}
 	else
 	{
 		node* temp = new node;
 		int in;
-		cout << "\nThe nodes start from index '0'";
-		cout << "\nThere are " << ind << " Nodes please enter a number that is smaller " << ind << " but also bigger than 0:";
+		cout << "\nThe nodes start from index '1'";
+		cout << "\nThere are " << ind << " Nodes please enter a number that is smaller than " << ind << " but also bigger than 0:";
 		cin >> in;
 
 		if (ind - in < ind / 2)
