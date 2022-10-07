@@ -64,7 +64,7 @@ void insertMiddle(node** start)
 		node* temp = new node;
 		int in;
 		cout << "\nThe nodes start from index '0'";
-		cout << "\nThere are " << ind << " Nodes please enter a number that is smaller " << ind << " but also bigger than 0";
+		cout << "\nThere are " << ind << " Nodes please enter a number that is smaller " << ind << " but also bigger than 0:";
 		cin >> in;
 		cout << "\nEnter the value:";
 		cin >> temp->data;
@@ -168,7 +168,56 @@ void deleteNodeBeginning(node** start)
 
 void deleteNodeMiddle(node** start)
 {
+	/*well copy paste of the function insertMiddle()
+	since i have no time and it's basically same thing and works just fine*/
+	node* tem = *start;
+	int ind = 0;
+	do
+	{
+		tem = tem->next;
+		ind++;
+	} while (tem != *start);
+	if (ind <= 2)
+	{
+		cout << "\nNot enough nodes";
+		return;
+	}
+	else
+	{
+		node* temp = new node;
+		int in;
+		cout << "\nThe nodes start from index '0'";
+		cout << "\nThere are " << ind << " Nodes please enter a number that is smaller " << ind << " but also bigger than 0:";
+		cin >> in;
 
+		if (ind - in < ind / 2)
+		{
+			tem = *start;
+			tem = tem->previous;
+
+			for (; ind > in; ind--)
+			{
+				tem = tem->previous;
+			}
+			temp = tem->previous;
+			(tem->next)->previous = temp;
+			temp->next = tem->next;
+			tem = temp;
+		}
+		else
+		{
+			tem = *start;
+
+			for (ind = 1; ind < in; ind++)
+			{
+				tem = tem->next;
+			}
+			temp = tem->previous;
+			(tem->next)->previous = temp;
+			temp->next = tem->next;
+			tem = temp;
+		}
+	}
 }
 
 void deleteNodeEnd(node** start)
